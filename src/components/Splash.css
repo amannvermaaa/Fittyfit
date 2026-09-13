@@ -1,0 +1,208 @@
+.splash-container {
+  position: fixed;
+  inset: 0;
+  background-color: #0B1626; /* Deep navy base */
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  perspective: 1000px;
+}
+
+.splash-exit {
+  animation: splashFadeOut 0.6s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+@keyframes splashFadeOut {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(1.1); visibility: hidden; pointer-events: none; }
+}
+
+/* Background Animated Mesh */
+.splash-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.6;
+  animation: blobFloat 10s ease-in-out infinite alternate;
+}
+
+.blob-1 {
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(circle, #1E3A5F, #0B1626);
+  top: -10%;
+  left: -10%;
+}
+
+.blob-2 {
+  width: 60vw;
+  height: 60vw;
+  background: radial-gradient(circle, rgba(126, 200, 227, 0.2), transparent);
+  bottom: -20%;
+  right: -10%;
+  animation-delay: -5s;
+}
+
+@keyframes blobFloat {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(5%, 10%) scale(1.2); }
+}
+
+/* Particles / Sparkles */
+.particles-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  bottom: -10px;
+  width: 3px;
+  height: 3px;
+  background: #7EC8E3;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #7EC8E3, 0 0 20px #FFFFFF;
+  opacity: 0;
+  animation: particleFloat infinite linear;
+}
+
+@keyframes particleFloat {
+  0% { transform: translateY(0) scale(0.5); opacity: 0; }
+  20% { opacity: 0.8; }
+  80% { opacity: 0.5; }
+  100% { transform: translateY(-50vh) scale(1.5); opacity: 0; }
+}
+
+/* Content Layout */
+.splash-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* SVG Logo & 3D Flight */
+.splash-logo-3d-wrapper {
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: flightMotion 2.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes flightMotion {
+  0% { opacity: 1; transform: translate3d(-50px, 50px, -200px) rotate3d(1, 1, 0, 45deg) scale(0.8); }
+  40% { transform: translate3d(-50px, 50px, -200px) rotate3d(1, 1, 0, 45deg) scale(0.8); } /* Wait for stroke draw (0-1.2s) */
+  60% { transform: translate3d(20px, -10px, 100px) rotate3d(0, 1, 0, -20deg) rotateZ(-10deg) scale(1.1); } /* Bank left (1.2-1.8s) */
+  100% { opacity: 1; transform: translate3d(0, 0, 0) rotate3d(0, 0, 0, 0) scale(1); } /* Settle */
+}
+
+/* SVG stroke drawing */
+.splash-svg-logo {
+  filter: drop-shadow(0px 10px 20px rgba(0,0,0,0.4));
+  z-index: 2;
+}
+
+.svg-draw-path {
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  fill-opacity: 0;
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  /* Instead of filling with color, the strokes just fade out as the cutout fades in */
+  animation: drawStroke 1.2s ease-in-out forwards, fadeOutStroke 0.4s ease-out 1.0s forwards;
+}
+
+.path-mid { stroke: #3B6FA0; }
+.path-sky { stroke: #7EC8E3; }
+.path-navy { stroke: #1E3A5F; }
+
+@keyframes drawStroke {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes fadeOutStroke {
+  to { stroke-opacity: 0; }
+}
+
+/* Cutout Image replaces the SVG fill seamlessly */
+.splash-cutout-image {
+  filter: drop-shadow(0px 10px 30px rgba(126, 200, 227, 0.4));
+  border-radius: 25%;
+  opacity: 0;
+  z-index: 1;
+  animation: fadeInCutout 0.4s ease-out 1.0s forwards;
+}
+
+@keyframes fadeInCutout {
+  to { opacity: 1; }
+}
+
+/* Wordmark */
+.splash-wordmark-text {
+  font-family: var(--font-heading);
+  font-size: 3rem;
+  color: #FFFFFF;
+  display: flex;
+  letter-spacing: -0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.wordmark-char {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: charSlideUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes charSlideUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Gold Progress Line */
+.gold-progress-line {
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-brand-gold), transparent);
+  margin-bottom: 1rem;
+  opacity: 0;
+  animation: sweepLine 0.8s ease-in-out 2.0s forwards;
+}
+
+@keyframes sweepLine {
+  0% { width: 0; opacity: 0; }
+  50% { opacity: 1; }
+  100% { width: 100%; opacity: 0.6; }
+}
+
+/* Taglines */
+.splash-tagline {
+  font-family: var(--font-heading);
+  color: #7EC8E3;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0em;
+  opacity: 0;
+  animation: taglineExpand 0.6s ease-out 2.4s forwards;
+}
+
+@keyframes taglineExpand {
+  0% { opacity: 0; letter-spacing: 0em; transform: translateY(5px); }
+  100% { opacity: 1; letter-spacing: 0.5em; transform: translateY(0); }
+}
+
+.splash-micro-tagline {
+  font-family: var(--font-body);
+  color: #94A3B8;
+  font-size: 0.875rem;
+  margin-top: 1.5rem;
+  opacity: 0;
+  animation: fadeIn 0.8s ease 2.6s forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
