@@ -87,6 +87,19 @@ export const Register = () => {
           name: formData.emergencyName,
           phone: formData.emergencyPhone
         }));
+        
+        // Save user profile for login and dashboard usage
+        window.localStorage.setItem('eudaimix_user_profile', JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          password: formData.password,
+          age: 28, // dummy defaults for dashboard
+          height: 175,
+          weight: 78
+        }));
+        
+        window.localStorage.setItem('eudaimix_auth', 'true');
       }
       navigate('/');
     }

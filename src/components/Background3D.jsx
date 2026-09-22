@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Points, PointMaterial } from '@react-three/drei';
 import * as random from 'maath/random/dist/maath-random.esm';
@@ -30,6 +31,13 @@ const ParticleField = (props) => {
 };
 
 export const Background3D = () => {
+  const location = useLocation();
+
+  // If we are on the dashboard, don't show the floating background bubbles
+  if (location.pathname === '/') {
+    return null;
+  }
+
   return (
     <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: -1, pointerEvents: 'none' }}>
       <Canvas camera={{ position: [0, 0, 1] }}>

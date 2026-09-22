@@ -41,19 +41,40 @@ export const Login = () => {
     }
   };
 
+  const [loginError, setLoginError] = useState('');
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoginError('');
     const idValid = validateField('loginId', formData.loginId);
     const passValid = validateField('password', formData.password);
     
     if (idValid && passValid) {
-      // Simulate login success
-      navigate('/');
+      let savedUser = null;
+      try {
+        savedUser = JSON.parse(window.localStorage.getItem('eudaimix_user_profile'));
+      } catch (e) {}
+
+      if (savedUser) {
+        // Check if loginId matches email or phone, AND password matches
+        const isIdMatch = savedUser.email === formData.loginId || savedUser.phone === formData.loginId;
+        const isPassMatch = savedUser.password === formData.password;
+
+        if (isIdMatch && isPassMatch) {
+          window.localStorage.setItem('eudaimix_auth', 'true');
+          navigate('/');
+          return;
+        }
+      }
+      
+      // If we reach here, invalid credentials or no user registered
+      setLoginError('Invalid Email/Phone or Password. Please register first if you haven\'t.');
     }
   };
 
   const handleBiometric = () => {
-    // Simulate biometric login
+    // Simulate biometric login (skip validation for mock purposes)
+    window.localStorage.setItem('eudaimix_auth', 'true');
     navigate('/');
   };
 
@@ -91,6 +112,12 @@ export const Login = () => {
           <h1>Welcome Back</h1>
           <p>Log in to access your health dashboard.</p>
         </div>
+
+        {loginError && (
+          <div style={{ backgroundColor: 'rgba(214, 69, 69, 0.1)', color: 'var(--color-alert-red)', padding: '0.75rem', borderRadius: '8px', marginBottom: '1.5rem', fontSize: '0.875rem', textAlign: 'center', border: '1px solid rgba(214, 69, 69, 0.3)' }}>
+            {loginError}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit}>
           {renderInput('Phone Number or Email', 'loginId', 'text', 'john@example.com')}

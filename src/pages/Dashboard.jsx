@@ -89,7 +89,7 @@ export const Dashboard = () => {
       <header style={{ marginBottom: '2rem' }}>
         <h1 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-brand-navy)', fontSize: '2rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
           Good morning, {profileData.name}
-          <span style={{ display: 'inline-block', width: '12px', height: '12px', borderRadius: '50%', backgroundColor: 'var(--color-success-green)', boxShadow: '0 0 10px var(--color-success-green)', animation: 'pulse 2s infinite' }} title="Vitals Online" />
+          <span style={{ display: 'inline-block', width: '12px', height: '12px', borderRadius: '50%', backgroundColor: 'var(--color-success-green)', boxShadow: '0 0 10px var(--color-success-green)' }} title="Vitals Online" />
         </h1>
         <p style={{ color: 'var(--color-text-secondary)', fontSize: '1rem' }}>Here is your daily health summary.</p>
       </header>
@@ -309,7 +309,7 @@ export const Dashboard = () => {
       </div>
 
       {/* Advanced About EduaiMix Carousel */}
-      <section style={{ marginTop: '3rem', animation: 'slideUp 0.8s ease-out' }}>
+      <section style={{ marginTop: '3rem' }}>
         <div style={{ position: 'relative', width: '100%', aspectRatio: '21/9', minHeight: '280px', maxHeight: '450px', borderRadius: '24px', overflow: 'hidden', boxShadow: '0 20px 40px rgba(0,0,0,0.1)' }}>
           
           {/* Animated Background Images */}

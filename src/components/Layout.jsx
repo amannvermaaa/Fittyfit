@@ -26,6 +26,15 @@ export const Layout = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isMoreOpen, setIsMoreOpen] = useState(false);
+
+  // Remove background animation if on dashboard
+  useEffect(() => {
+    if (location.pathname === '/') {
+      document.body.classList.add('no-bg-animation');
+    } else {
+      document.body.classList.remove('no-bg-animation');
+    }
+  }, [location.pathname]);
   
   const [sosActive, setSosActive] = useState(() => {
     if (typeof window !== "undefined") {
@@ -60,7 +69,11 @@ export const Layout = () => {
           <LogoMark size={36} />
         </div>
 
-        <button className="floating-sos-btn" onClick={() => navigate('/emergency')} aria-label="Emergency SOS">
+        <button 
+          className="floating-sos-btn" 
+          onClick={() => navigate('/emergency')} 
+          aria-label="Emergency SOS"
+        >
           <ShieldAlert size={28} />
         </button>
 

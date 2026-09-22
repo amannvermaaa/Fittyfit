@@ -1,0 +1,104 @@
+.logo-11d-container {
+  width: 180px;
+  height: 180px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* 
+    1. Scale bump at 2s (when drawing finishes)
+    2. Continuous floating after 2.5s
+  */
+  animation: 
+    bumpImpact 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2s forwards,
+    logoFloat 4s ease-in-out infinite 2.5s;
+}
+
+.logo-11d-svg {
+  overflow: visible;
+  /* Premium glowing shadow */
+  filter: drop-shadow(0px 15px 30px rgba(42, 82, 152, 0.4));
+}
+
+.logo-path-gap, .logo-path {
+  /* Using a large dasharray to cover the full path length */
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+}
+
+/* 
+  We hide the gaps entirely at the start, 
+  and only show them once the animation starts, 
+  so the rounded caps don't look weird when stroke-dashoffset is 200 
+*/
+.logo-path-gap {
+  opacity: 0;
+}
+.animate .logo-path-gap {
+  opacity: 1;
+  transition: opacity 0.1s;
+}
+
+/* The actual draw animations */
+.animate .logo-path, .animate .logo-path-gap {
+  animation: drawPath 2s ease-in-out forwards;
+}
+
+/* Stagger the drawing of the lines much more distinctly so they don't overlap too fast */
+.animate .p-left { animation-delay: 0.1s; }
+.animate .p-top { animation-delay: 0.5s; }
+.animate .p-right { animation-delay: 0.9s; }
+.animate .p-bottom { animation-delay: 1.3s; }
+.animate .p-snippet { animation-delay: 0.1s; } /* Must match p-left */
+
+@keyframes drawPath {
+  0% {
+    stroke-dashoffset: 200;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes logoFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes bumpImpact {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.15); filter: brightness(1.4); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+
+.logo-glare-sweep {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(45deg) translateX(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.animate .logo-glare-sweep {
+  animation: glareSweep 1.5s cubic-bezier(0.25, 1, 0.5, 1) 2.2s forwards;
+}
+
+@keyframes glareSweep {
+  0% { transform: rotate(45deg) translateX(-100%); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: rotate(45deg) translateX(100%); opacity: 0; }
+}

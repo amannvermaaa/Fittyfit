@@ -1,7 +1,7 @@
 .splash-container {
   position: fixed;
   inset: 0;
-  background-color: #0B1626; /* Deep navy base */
+  background-color: #F0F6F9; /* Light mode base */
   z-index: 9999;
   display: flex;
   align-items: center;
@@ -31,7 +31,7 @@
 .blob-1 {
   width: 50vw;
   height: 50vw;
-  background: radial-gradient(circle, #1E3A5F, #0B1626);
+  background: radial-gradient(circle, rgba(126, 200, 227, 0.4), transparent);
   top: -10%;
   left: -10%;
 }
@@ -39,7 +39,7 @@
 .blob-2 {
   width: 60vw;
   height: 60vw;
-  background: radial-gradient(circle, rgba(126, 200, 227, 0.2), transparent);
+  background: radial-gradient(circle, rgba(201, 162, 75, 0.2), transparent);
   bottom: -20%;
   right: -10%;
   animation-delay: -5s;
@@ -60,11 +60,11 @@
 .particle {
   position: absolute;
   bottom: -10px;
-  width: 3px;
-  height: 3px;
-  background: #7EC8E3;
+  width: 4px;
+  height: 4px;
+  background: #3B6FA0;
   border-radius: 50%;
-  box-shadow: 0 0 10px #7EC8E3, 0 0 20px #FFFFFF;
+  box-shadow: 0 0 10px #3B6FA0, 0 0 20px #00C4D6;
   opacity: 0;
   animation: particleFloat infinite linear;
 }
@@ -105,47 +105,37 @@
   z-index: 2;
 }
 
-.svg-draw-path {
-  stroke-width: 1.5;
-  stroke-linejoin: round;
-  stroke-linecap: round;
-  fill-opacity: 0;
-  stroke-dasharray: 200;
-  stroke-dashoffset: 200;
-  /* Instead of filling with color, the strokes just fade out as the cutout fades in */
-  animation: drawStroke 1.2s ease-in-out forwards, fadeOutStroke 0.4s ease-out 1.0s forwards;
+/* Simple Fitted Logo Animation */
+.splash-logo-simple {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  animation: 
+    simpleEnter 1s ease-out forwards,
+    simpleFloat 4s ease-in-out infinite 1s;
 }
 
-.path-mid { stroke: #3B6FA0; }
-.path-sky { stroke: #7EC8E3; }
-.path-navy { stroke: #1E3A5F; }
-
-@keyframes drawStroke {
-  to { stroke-dashoffset: 0; }
+@keyframes simpleEnter {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
-@keyframes fadeOutStroke {
-  to { stroke-opacity: 0; }
-}
-
-/* Cutout Image replaces the SVG fill seamlessly */
-.splash-cutout-image {
-  filter: drop-shadow(0px 10px 30px rgba(126, 200, 227, 0.4));
-  border-radius: 25%;
-  opacity: 0;
-  z-index: 1;
-  animation: fadeInCutout 0.4s ease-out 1.0s forwards;
-}
-
-@keyframes fadeInCutout {
-  to { opacity: 1; }
+@keyframes simpleFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
 /* Wordmark */
 .splash-wordmark-text {
   font-family: var(--font-heading);
   font-size: 3rem;
-  color: #FFFFFF;
+  color: #1E3A5F;
   display: flex;
   letter-spacing: -0.05em;
   margin-bottom: 0.5rem;
